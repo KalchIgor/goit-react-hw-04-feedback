@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Section from "./Section";
 import Statistics from "./Statistics";
 import FeedbackOptions from "./FeedbackOptions";
@@ -6,42 +6,48 @@ import Notification from "./Notification";
 import css from './Feedback.module.css';
 
 
-class Feedback extends React.Component {
-    state = {
-        good: 0,
-        neutral: 0,
-        bad: 0
-    };
+export default function Feedback()  {
     
-onLeaveFeedback = (e) => {
-    const name = e.target.name;
-	this.setState((prevState) => ({
-		[name]: prevState[name] + 1
-	    }));
+    const[good, setGood] =  useState(0);
+    const[neutral, setNeutral] =  useState(0);
+    const[bad, setBad] =  useState(0);
+    
+
+const onLeaveFeedback = (e) => {
+        const { name } = e.currentTarget;
+        switch (name) {
+            case "good":
+                return setGood((prev) => prev + 1);
+            case "neutral":
+                return setNeutral((prev) => prev + 1);
+            case "bad":
+                return setBad((prev) => prev + 1);
+             default:
+                return;
+    }
     }
 
-countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    const countTotal = good + neutral + bad;
-    return countTotal;
+const countTotalFeedback = () => {
+    
+    return good + neutral + bad;
+  
 };
 
-countPositiveFeedbackPercentage = () => {
-    const countTotal = this.countTotalFeedback();
-	const { good } = this.state;
+const countPositiveFeedbackPercentage = () => {
+    
+    const countTotal = countTotalFeedback();
+     
 	const percentage = (good * 100) / countTotal;
 	return Math.round(percentage);
 }
-
-render() {
-    const { good, neutral, bad } = this.state;
-    const total = this.countTotalFeedback(); 
-    const positivePercentage = this.countPositiveFeedbackPercentage();
-    const objKey = Object.keys(this.state);
+const total = countTotalFeedback();
+    
     return (
          <div className={css.feedback}>
             <Section title="Please leave feedback">
-					<FeedbackOptions options={objKey} onLeaveFeedback={this.onLeaveFeedback} />
+
+                <FeedbackOptions options={Object.keys({ good, neutral, bad })} onLeaveFeedback={onLeaveFeedback} />
+                
 				</Section>
 
             {total === 0 ? (
@@ -51,14 +57,13 @@ render() {
                     good={good}
                     neutral={neutral}
                     bad={bad}
-                    total={total}
-                    positivePercentage={positivePercentage}
+                    total={countTotalFeedback()}
+                    positivePercentage={countPositiveFeedbackPercentage()}
                 />
                 </Section>
 )}
         </div>
         )
     }
-}
 
-export default Feedback;
+
