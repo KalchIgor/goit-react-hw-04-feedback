@@ -6,7 +6,9 @@ import Notification from "./Notification";
 import css from './Feedback.module.css';
 
 
-export default function Feedback()  {
+export default function Feedback() {
+    
+    const keys = ["good", "neutral", "bad"];
     
     const[good, setGood] =  useState(0);
     const[neutral, setNeutral] =  useState(0);
@@ -46,7 +48,7 @@ const total = countTotalFeedback();
          <div className={css.feedback}>
             <Section title="Please leave feedback">
 
-                <FeedbackOptions options={Object.keys({ good, neutral, bad })} onLeaveFeedback={onLeaveFeedback} />
+                <FeedbackOptions options={keys} onLeaveFeedback={onLeaveFeedback} />
                 
 				</Section>
 
@@ -57,7 +59,7 @@ const total = countTotalFeedback();
                     good={good}
                     neutral={neutral}
                     bad={bad}
-                    total={countTotalFeedback()}
+                    total={total}
                     positivePercentage={countPositiveFeedbackPercentage()}
                 />
                 </Section>
