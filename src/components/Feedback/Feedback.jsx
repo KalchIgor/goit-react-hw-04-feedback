@@ -8,7 +8,7 @@ import css from './Feedback.module.css';
 
 export default function Feedback() {
     
-    const keys = ["good", "neutral", "bad"];
+    const feedbacks = ["good", "neutral", "bad"];
     
     const[good, setGood] =  useState(0);
     const[neutral, setNeutral] =  useState(0);
@@ -48,7 +48,7 @@ const total = countTotalFeedback();
          <div className={css.feedback}>
             <Section title="Please leave feedback">
 
-                <FeedbackOptions options={keys} onLeaveFeedback={onLeaveFeedback} />
+                <FeedbackOptions options={feedbacks} onLeaveFeedback={onLeaveFeedback} />
                 
 				</Section>
 
